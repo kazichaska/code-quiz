@@ -1,18 +1,24 @@
 // creating all variables here using getElementById
+let right = 0;
+let state = 0; 
 var body = document.body;
 var btnQuestion1El = document.getElementById("question-1");
 var btnQuestion2El = document.getElementById("question-2");
 var btnQuestion3El = document.getElementById("question-3");
 var btnQuestion4El = document.getElementById("question-4");
+var btnQuestion4El = document.getElementById("question-5");
+
 var btnAnswer1El = document.getElementById("answer-1");
 var btnAnswer2El = document.getElementById("answer-2");
 var btnAnswer3El = document.getElementById("answer-3");
 var btnAnswer4El = document.getElementById("answer-4");
 
+var resultScoreEl = document.getElementById("score");
+
 var timerEl = document.getElementById("countdown");
 var scoreEl = document.getElementById("viewscore");
 
-// body.setAttribute("style", " color:white; background: #666666; padding: 5px; margin-left: 35px;");
+body.setAttribute("style", " color:white; background: #666666; padding: 5px; margin-left: 35px;");
 
 // Placeholder where question and answer would go
 // btnQuestion1El.textContent = "This is question one";
@@ -27,12 +33,34 @@ var scoreEl = document.getElementById("viewscore");
 // Start button click
 var startQuizEl = document.getElementById("startquiz");
 startQuizEl.addEventListener("click", function(){
-    countDown();
-    populateQuestion();
+    startGame();
 });
 
+function startGame(){
+    // resultScoreEl.innerHTML=`View High Scores: ${right}`;
+    scoreEl.innerHTML=`View High Scores: ${right}`;
+    countDown();
+    if (state === 0) {
+        populateQuestion(0);
+    }
+    if (state === 1) {
+        populateQuestion(1);
+    }
+    if (state === 2) {
+        populateQuestion(2);
+    }
+    if (state === 3) {
+        populateQuestion(3);
+    }
+    if (state === 4) {
+        populateQuestion(4);
+    }
+    // resultScoreEl.innerHTML=`View High Scores: ${right}`;
+    scoreEl.innerHTML=`View High Scores: ${right}`;
+}
 
-var secondsLeft = 76;
+
+var secondsLeft = 75;
 var questionCount = 0;
 //Timer starts when the user clicks startQuiz 
 function countDown() {
@@ -41,16 +69,20 @@ function countDown() {
       secondsLeft--;
       timerEl.textContent = "";
       timerEl.textContent = secondsLeft;
-      if (secondsLeft <= 0 || questionCount === questions.length) {
+      if (secondsLeft < 0 || questionCount === questions.length) {
+        console.log(questions.length);
         clearInterval(timerInterval);
         // captureUserScore();
       } 
     }, 1000);
   }
 
+// function quizEnd() {
+//     clearInterval(timerInterval);
+// }
 // countDown();
 
-// function buildQuiz() {
+// Array with the question and answers
 const questions = [
     {
         title: "______ JavaScript is also called client-side JavaScript.",
@@ -84,55 +116,49 @@ const questions = [
     ];
     // return questions;
     // console.log();
-// };
-// const totalQuestion = questions.length;
-// console.log(totalQuestion);
 
-// function startQuiz() {
-//     startQuizEl.addEventListener("click", )
-//     console.log();
-// }
-
-function populateQuestion() {
-    btnQuestion1El.textContent = questions[0].title;
-    btnAnswer1El.textContent = questions[0].multiChoice[0];
-    btnAnswer2El.textContent = questions[0].multiChoice[1];
-    btnAnswer3El.textContent = questions[0].multiChoice[2];
-    btnAnswer4El.textContent = questions[0].multiChoice[3];
+function populateQuestion(question) {
+    btnQuestion1El.textContent = questions[question].title;
+    btnAnswer1El.textContent = questions[question].multiChoice[0];
+    btnAnswer2El.textContent = questions[question].multiChoice[1];
+    btnAnswer3El.textContent = questions[question].multiChoice[2];
+    btnAnswer4El.textContent = questions[question].multiChoice[3];
     // add event listner for each btn answer
-    btnAnswer1El.addEventListener('click', (e)=>{
-        // console.log(e.target.id);
-    });
-    btnAnswer2El.addEventListener('click', (e)=>{
-        // console.log(e.target.id);
-    });
-    btnAnswer3El.addEventListener('click', (e)=>{
-        // console.log(e.target.id);
-    });
-    btnAnswer4El.addEventListener('click', (e)=>{
-        // console.log(e.target.id);
+    btnAnswer1El.addEventListener('click', function(event){
+        event.preventDefault();
+        var element = event.target;
+        // console.log(event.target);
+        if (questions[question].multiChoice[0] === questions[question].answer[1]) {
+            // right++;
+            right += 10;
+            console.log("correct");
+            // alert("This is correct");
+        } else {
+            // right--;
+            right -= 10;
+            console.log("incorrect");
+            // alert("This is incorrect");
+        }
+
+            state += 1;
+            startGame();
+ 
+        // if (element.matches(".btn")){
+        //  var state = element.getAttribute("id");
+        //  console.log(state);
+        // }
+        // // if (state === "answer-1" {
+        // //     element.textContent = element.
+        // // }
+        // else {
+        //     element.textContent=";"
+        // }
     });
 
     // compare text content of btn with answer
-    // if 
+     
     // if it is correct answer display next question
+    
     // if it is the incorrect answer minus time and then display next question
 };
 
-// function viewScore() {
-//     var iniScore = 0;
-//     var correctAnswer = 0;
-    
-//     if (correctAnswer) {
-//         iniScore += 10;
-//         scoreEl.textContent = iniScore;
-//     }
-//     else {
-//         iniScore -= 10;
-//         scoreEl.textContent = iniScore;
-//     }
-//         console.log(iniScore);
-// return correctAnswer;
-// };
-
-// viewScore();
