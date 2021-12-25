@@ -17,8 +17,9 @@ var resultScoreEl = document.getElementById("score");
 
 var timerEl = document.getElementById("countdown");
 var scoreEl = document.getElementById("viewscore");
+var timeleft = 5;
 
-body.setAttribute("style", " color:white; background: #666666; padding: 5px; margin-left: 35px;");
+// body.setAttribute("style", " color:white; background: #666666; padding: 5px; margin-left: 35px;");
 
 // Placeholder where question and answer would go
 // btnQuestion1El.textContent = "This is question one";
@@ -38,7 +39,7 @@ startQuizEl.addEventListener("click", function(){
 
 function startGame(){
     // resultScoreEl.innerHTML=`View High Scores: ${right}`;
-    scoreEl.innerHTML=`View High Scores: ${right}`;
+    scoreEl.innerText=`View High Scores: ${right}`;
     countDown();
     if (state === 0) {
         populateQuestion(0);
@@ -56,12 +57,13 @@ function startGame(){
         populateQuestion(4);
     }
     // resultScoreEl.innerHTML=`View High Scores: ${right}`;
-    scoreEl.innerHTML=`View High Scores: ${right}`;
+    scoreEl.innerText=`View High Scores: ${right}`;
 }
 
 
 var secondsLeft = 75;
 var questionCount = 0;
+let timerInterval;
 //Timer starts when the user clicks startQuiz 
 function countDown() {
     // buildQuiz();
@@ -162,3 +164,29 @@ function populateQuestion(question) {
     // if it is the incorrect answer minus time and then display next question
 };
 
+// End game
+var endGame = function() {
+    correctWrongEl.remove();
+    stopCountDown()
+    resultScoreEl.textContent = 'Final score is ' + timeleft; 
+};
+
+// stop countdown
+var stopCountDown = function() {
+    clearInterval(timerInterval);
+    timerEl.textContent = "Time: " + timeleft;
+}
+
+// verify answer is correct or wrong
+var correctWrongEl = document.createElement(h3);
+var answerRes = function() {
+    correctWrongEl.id = 'correctWrong';
+
+    if (correctAnswer === true) {
+        correctWrongEl.textContent = "correct"
+        document.body.appendChild(correctWrongEl);
+    } else if (correctAnswer === false) {
+        correctWrongEl.textContent = "wrong"
+        document.body.appendChild(correctWrongEl);
+    }
+};
