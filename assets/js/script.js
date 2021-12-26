@@ -10,7 +10,7 @@ let shuffledQuestions;
 let currentQuestionIndex = 0;
 var timerEl = document.getElementById("countdown");
 // var scoreEl = document.getElementById("viewscore");
-let timeLeft = 75;
+// let timeLeft = 75;
 let secondLeft;
 var score = 0;
 
@@ -45,6 +45,7 @@ function startGame() {
     currentQuestionIndex = 0
     questionContainerEl.classList.remove('hide')
     NextQuestion()
+    countDown
 }
 
 // start timer function
@@ -52,17 +53,33 @@ function startTimer() {
     interval = setInterval(countDown, 1000)
 }
 
-// // countdown function
+// countdown function
 // function countDown() {
-//     if (timeLeft <= 0) return renderResult()
-//     timeLeft--
-//     document.getElementById("timerEl").innerText = `Time remaining: ${timeLeft}`
+//     for (let i = 0; i <= timeLeft i-- ){
+
+//     }
+//     if (timeLeft >= 0) {
+//         showQuestion();
+//         timeLeft--
+//         timerEl.textContent = `Time: ${timeLeft}`
+//         // timerEl.textContent = timeLeft
+//     }
 // }
 
+var timeleft = 75;
+var countDown = setInterval(function(){
+  if(timeleft <= 0){
+    clearInterval(downloadTimer);
+  }
+  document.getElementById("countdown").value = 75 - timeleft;
+  timeleft -= 1;
+}, 1000)
+
 // stop timer function
-function stopTimer() {
-    clearInterval(interval)
-}
+// function stopTimer() {
+//     console.log(interval)
+//     clearInterval(interval)
+// }
 
 function NextQuestion() {
     resetState()
@@ -124,6 +141,7 @@ function scoreTotal(correct) {
     }
     console.log(score)
     resultScoreEl.textContent = 'View High Scores ' + score
+    timerEl.textContent = timeleft
     // return score;
 }
 
@@ -134,14 +152,13 @@ function clearStatusClass(element) {
 
 function endGame() {
     console.log("Game Ended!")
-    window.alert("Game Ended!" + 'total score ' + score)
+    window.alert("Game Ended! " + ' total score ' + score)
     // stopTimer()
     resetState()
-    clearInterval()
-    startButton.classList.add('hide')
+    startButton.classList.remove('hide')
+    score = 0;
     currentQuestionIndex = 0
-    questionContainerEl.classList.remove('hide')
-    NextQuestion()
+    questionContainerEl.classList.add('hide')
 }
 
 // Array with the question and answers
@@ -192,5 +209,3 @@ const questions = [
         ]
     }
 ]
-
-

@@ -135,6 +135,6 @@ header {
     align-items: center;
 }
 
-/* .hide {
-    display: none;
-} */
+.hide {
+    display:-moz-popup;
+}
