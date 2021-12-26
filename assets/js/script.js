@@ -1,192 +1,179 @@
 // creating all variables here using getElementById
-let right = 0;
-let state = 0; 
-var body = document.body;
-var btnQuestion1El = document.getElementById("question-1");
-var btnQuestion2El = document.getElementById("question-2");
-var btnQuestion3El = document.getElementById("question-3");
-var btnQuestion4El = document.getElementById("question-4");
-var btnQuestion4El = document.getElementById("question-5");
+const startButton = document.getElementById('start-btn')
+const nextButton = document.getElementById('next-btn')
+const questionContainerEl = document.getElementById('question-container')
 
-var btnAnswer1El = document.getElementById("answer-1");
-var btnAnswer2El = document.getElementById("answer-2");
-var btnAnswer3El = document.getElementById("answer-3");
-var btnAnswer4El = document.getElementById("answer-4");
-
-var resultScoreEl = document.getElementById("score");
-
+const questionEl = document.getElementById('question')
+const answerBtnEl = document.getElementById('answer-buttons')
+// var resultScoreEl = document.getElementById("score");
+let shuffledQuestions, currentQuestionIndex;
 var timerEl = document.getElementById("countdown");
-var scoreEl = document.getElementById("viewscore");
-var timeleft = 5;
+// var scoreEl = document.getElementById("viewscore");
+let timeLeft = 75;
+let secondLeft;
+var score;
 
-// body.setAttribute("style", " color:white; background: #666666; padding: 5px; margin-left: 35px;");
+// const heading = document.createElement("h1");
+// const heading_text = document.createTextNode("Code Quiz Challenge!");
+// heading.appendChild(heading_text);
+// document.head.appendChild(heading);
 
-// Placeholder where question and answer would go
-// btnQuestion1El.textContent = "This is question one";
-// btnQuestion2El.textContent = "This is question two";
-// btnQuestion3El.textContent = "This is question three";
-// btnQuestion4El.textContent = "This is question four";
-// btnAnswer1El.textContent = "This is answer one";
-// btnAnswer2El.textContent = "This is answer two";
-// btnAnswer3El.textContent = "This is answer three";
-// btnAnswer4El.textContent = "This is answer four";
+// const heading_timer = document.createElement("button");
+// const heading_timer_text = document.createTextNode("Time:");
+// heading.appendChild(heading_timer);
+// document.head.appendChild(heading_timer_text);
+
 
 // Start button click
-var startQuizEl = document.getElementById("startquiz");
-startQuizEl.addEventListener("click", function(){
-    startGame();
-});
+startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+    currentQuestionIndex++
+    NextQuestion()
+})
 
-function startGame(){
-    // resultScoreEl.innerHTML=`View High Scores: ${right}`;
-    scoreEl.innerText=`View High Scores: ${right}`;
-    countDown();
-    if (state === 0) {
-        populateQuestion(0);
-    }
-    if (state === 1) {
-        populateQuestion(1);
-    }
-    if (state === 2) {
-        populateQuestion(2);
-    }
-    if (state === 3) {
-        populateQuestion(3);
-    }
-    if (state === 4) {
-        populateQuestion(4);
-    }
-    // resultScoreEl.innerHTML=`View High Scores: ${right}`;
-    scoreEl.innerText=`View High Scores: ${right}`;
+function startGame() {
+    console.log('Game Started!')
+    // startTimer()
+    startButton.classList.add('hide')
+    shuffledQuestions = questions.sort(() => Math.random() - .5)
+    currentQuestionIndex = 0
+    questionContainerEl.classList.remove('hide')
+    NextQuestion()
 }
 
-
-var secondsLeft = 75;
-var questionCount = 0;
-let timerInterval;
-//Timer starts when the user clicks startQuiz 
-function countDown() {
-    // buildQuiz();
-    let timerInterval = setInterval(function() {
-      secondsLeft--;
-      timerEl.textContent = "";
-      timerEl.textContent = secondsLeft;
-      if (secondsLeft < 0 || questionCount === questions.length) {
-        console.log(questions.length);
-        clearInterval(timerInterval);
-        // captureUserScore();
-      } 
-    }, 1000);
-  }
-
-// function quizEnd() {
-//     clearInterval(timerInterval);
+// // start timer function
+// function startTimer() {
+//     interval = setInterval(countDown, 1000)
 // }
-// countDown();
+
+// // countdown function
+// function countDown() {
+//     if (timeLeft <= 0) return renderResult()
+//     timeLeft--
+//     document.getElementById("timerEl").innerText = `Time remaining: ${timeLeft}`
+// }
+
+// // stop timer function
+// function stopTimer() {
+//     clearInterval(interval)
+// }
+
+function NextQuestion() {
+    resetState()
+    showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+function showQuestion(question) {
+    questionEl.innerHTML = question.question
+    question.answers.forEach(answer => {
+        const button = document.createElement('button')
+        button.innerText = answer.text
+        button.classList.add('btn')
+        if (answer.correct) {
+            button.dataset.correct = answer.correct
+        }
+        button.addEventListener('click', pickAnswer)
+        answerBtnEl.appendChild(button)
+    })
+}
+
+function resetState() {
+    clearStatusClass(document.body)
+    nextButton.classList.add('hide')
+    while (answerBtnEl.firstChild) {
+        answerBtnEl.removeChild(answerBtnEl.firstChild)
+    }
+}
+
+function pickAnswer(e) {
+    const buttonSelected = e.target
+    const correct = buttonSelected.dataset.correct
+    statusClass(document.body, correct)
+    Array.from(answerBtnEl.children).forEach(button => {
+        statusClass(button, button.dataset.correct)
+    })
+    if (shuffledQuestions.length > currentQuestionIndex +1) {
+        nextButton.classList.remove('hide')
+    } else {
+        startButton.innerText = 'Start Over'
+        startButton.classList.remove('hide')
+    }
+}
+
+function statusClass(element, correct) {
+    clearStatusClass(element)
+    if (correct) {
+        element.classList.add('correct')
+    } else {
+        element.classList.add('wrong')
+    }
+    // scoreTotal()
+}
+
+function scoreTotal() {
+    if (scoreTemp = (document.body.innerText = "correct")) {
+        score += 10;
+    } else {
+        score -= 10;
+    }
+    console.log(score);
+    return score;
+    // console.log(score)
+    // return score;
+}
+
+function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
+}
 
 // Array with the question and answers
 const questions = [
     {
-        title: "______ JavaScript is also called client-side JavaScript.",
-        multiChoice: ["Microsoft", "Navigator", "LiveWire", "Native"],
-        answer: "Navigator"
+        question: "______ JavaScript is also called client-side JavaScript.",
+        answers: [
+            { text: 'Microsoft', correct: false },
+            { text: 'Navigator', correct: true },
+            { text: 'LiveWire', correct: false },
+            { text: 'Native', correct: false },
+        ]
     },
-    
     {
-        title: "What are variables used for in JavaScript Programs?",
-        multiChoice: ["Storing numbers, dates, or other values", "Varying randomly", "Causing high-school algebra flashbacks", "None of the above"],
-        answer: "Storing numbers, dates, or other values"
+        question: "What are variables used for in JavaScript Programs?",
+        answers: [
+            { text: 'Storing numbers dates, or other values', correct: true },
+            { text: 'Varying randomly', correct: false },
+            { text: 'Causing high-school algebra flashbacks', correct: false },
+            { text: 'None of the above', correct: false },
+        ]
+    },    
+    {
+        question: "Which of the following is not a valid JavaScript variable name?",
+        answers: [
+            { text: '2names', correct: true },
+            { text: '_first_and_last_names', correct: false },
+            { text: 'FirstAndLast', correct: false },
+            { text: 'None of the above', correct: false },
+        ]
     },
-    
     {
-        title: "hich of the following is not a valid JavaScript variable name?",
-        multiChoice: ["2names", "_first_and_last_names", "FirstAndLast", "None of the above"],
-        answer: "2names"
-    },
-    
+        question: "______ tag is an extension to HTML that can enclose any number of JavaScript statements.",
+        answers: [
+            { text: '<SCRIPT>', correct: true },
+            { text: '<BODY>', correct: false },
+            { text: '<HEAD>', correct: false },
+            { text: '<TITLE>', correct: false },
+        ]
+    }, 
     {
-        title: "______ tag is an extension to HTML that can enclose any number of JavaScript statements.",
-        multiChoice: ["<SCRIPT>", "<BODY>", "<HEAD>", "<TITLE>"],
-        answer: "<SCRIPT>"
-    },
-    
-    {
-        title: "Inside which HTML element do we put the JavaScript?",
-        multiChoice: ["<javascript>", "<scripting>", "<script>", "<js>"],
-        answer: "<script>"
+        question: "Inside which HTML element do we put the JavaScript?",
+        answers: [
+            { text: '<javascript>', correct: false },
+            { text: '<scripting>', correct: false },
+            { text: '<script>', correct: true },
+            { text: '<js>', correct: false },
+        ]
     }
-    ];
-    // return questions;
-    // console.log();
+]
 
-function populateQuestion(question) {
-    btnQuestion1El.textContent = questions[question].title;
-    btnAnswer1El.textContent = questions[question].multiChoice[0];
-    btnAnswer2El.textContent = questions[question].multiChoice[1];
-    btnAnswer3El.textContent = questions[question].multiChoice[2];
-    btnAnswer4El.textContent = questions[question].multiChoice[3];
-    // add event listner for each btn answer
-    btnAnswer1El.addEventListener('click', function(event){
-        event.preventDefault();
-        var element = event.target;
-        // console.log(event.target);
-        if (questions[question].multiChoice[0] === questions[question].answer[1]) {
-            // right++;
-            right += 10;
-            console.log("correct");
-            // alert("This is correct");
-        } else {
-            // right--;
-            right -= 10;
-            console.log("incorrect");
-            // alert("This is incorrect");
-        }
 
-            state += 1;
-            startGame();
- 
-        // if (element.matches(".btn")){
-        //  var state = element.getAttribute("id");
-        //  console.log(state);
-        // }
-        // // if (state === "answer-1" {
-        // //     element.textContent = element.
-        // // }
-        // else {
-        //     element.textContent=";"
-        // }
-    });
-
-    // compare text content of btn with answer
-     
-    // if it is correct answer display next question
-    
-    // if it is the incorrect answer minus time and then display next question
-};
-
-// End game
-var endGame = function() {
-    correctWrongEl.remove();
-    stopCountDown()
-    resultScoreEl.textContent = 'Final score is ' + timeleft; 
-};
-
-// stop countdown
-var stopCountDown = function() {
-    clearInterval(timerInterval);
-    timerEl.textContent = "Time: " + timeleft;
-}
-
-// verify answer is correct or wrong
-var correctWrongEl = document.createElement(h3);
-var answerRes = function() {
-    correctWrongEl.id = 'correctWrong';
-
-    if (correctAnswer === true) {
-        correctWrongEl.textContent = "correct"
-        document.body.appendChild(correctWrongEl);
-    } else if (correctAnswer === false) {
-        correctWrongEl.textContent = "wrong"
-        document.body.appendChild(correctWrongEl);
-    }
-};

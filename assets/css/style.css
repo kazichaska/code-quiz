@@ -1,8 +1,3 @@
-/* *, *::before, *::after {
-    box-sizing: border-box;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-} */
-
 * {
     box-sizing: border-box;
     padding: 0;
@@ -11,27 +6,28 @@
 
 :root {
     --white: #FFFFFF;
-    --gill_sans: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    --lucida: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+    
 }
 
 /* Start of body */
 body {
-    font-family: var(--gill_sans);
-    display: inline-block;
-    /* padding: 0;
-    margin: 0;
-    display: flex;
-    /* width: 100vw;
-    height: 100vh; */
-    /* justify-content: center;
+    padding: 50px;
+    /* margin: 50px; */
+    width: 100vw;
+    height: 100vh;
+    /* display: flex;
+    justify-content: center;
     align-items: center; */
 }
+
 /* End of body */
 
 header {
-    display: flex; /* Flex container to display the child elements as flex with space between and wrap */
+    display: flex; 
     justify-content: space-between;
     flex-wrap: wrap;
+    align-items: center;
     list-style: none;
     color: blueviolet;
     height: 60px;
@@ -39,116 +35,106 @@ header {
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    border: 1px solid red;
-    width: 120%;
-    font-family: var(--gill_sans);
+    padding-bottom: 20px;
+    /* border: 1px solid red; */
+    width: 100%;
+    font-family: var(--lucida);
 }
-
+ 
 .btn-header {
     border-radius: 10px;
-    background-color: white;
+    background-color: teal;
     text-decoration: none;
     border: 0;
     outline: 0; /* Remove border around button */
     color: blueviolet;
-    font-family: var(--gill_sans); 
-    /* font-size: 22px; */
+    font-family: var(--lucida);
+    font-size: 22px;
     font-size: 2vw;;
 }
 
-#main-container {
-    /* margin-left: 25%;
-    margin-right: 25%; */
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 50px;
-    font-family: var(--gill_sans);font-size: 22px;
+.container {
+    width: 800px;
+    max-width: 80%;
+    background-color: teal;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 0 10px 2px;
 }
 
-.score {
-    float: left;
-    padding-left: 10px;
-}
-
-.time {
-    float: right;
-    padding-right: 10px;
-}
-
-/* #code-quiz-header {
+#chl-msg {
     padding-top: 100px;
-    padding-bottom: 100px;
-    padding-left: 150px; 
-    padding-right: 100px;
-} */
-
-.quiz-container {
-    margin: 10px;
-    padding: 5px;
-    width: 80vw;
-    height: 10vh;
-    background-color: #c7dddf;
-    font-size: large;
-    text-align: center;   
-}
-
-#start {
-    font-weight: bolder;
-    margin: 10px;
-    padding: 5px;
-    width: 80vw;
-    height: 10vh;
-    background-color: #c7dddf;
-    font-size: large;
-    text-align: center;
-}
-
-#submit-score {
-    grid-column: 3 / span 1;
-    grid-row: 7 / span 1;
-    padding: 10px 10px 10px 10px;
-    border-radius: 10%;
-    border: 0;
-    outline: 0; /* Remove border around button */
-    background-color: purple;
-    color: white;
-    font-family: 'Merienda';font-size: 15px;
-}
-
-#start-quiz {
-    padding: 10px 10px 10px 10px;
-    border-radius: 10%;
-    border: 0;
-    outline: 0; /* Remove border around button */
-    background-color: purple;
-    color: white;
-    font-family: 'Merienda';font-size: 15px;
-}
-
-#code-quiz-display {
-    text-align: center;
-    align-self: baseline;
-    grid-column: 2 / span 2;
-    grid-row: 1 / span 5;
-    place-self: center;
-    font-size: 30px;
-}
-
-/* main {
-    border: 1px solid red;
-    width: 100%;
     display: flex;
-    margin-left: 10%;
-    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    align-content: center;
-    padding-top: 50px;
-    padding-bottom: 50px;
-} */
+    font-size: 4vw;;
+}
 
-.flex {
+#question-container {
+    padding-top: 70px;
+}
+
+#question {
     display: flex;
-    flex-direction: column;
+    background-color: darkblue; 
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    outline: none;
+}
+
+#question-rule {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 50px;
+    font-size: 3vw;;
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.btn {
+    border-radius: 1px solid red;
+    background-color: darkblue;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    outline: none;
+}
+
+
+.btn:hover {
+    border-color: orange;
+    background-color: darkorchid;
+}
+
+.btn.correct {
+    background-color: darkgreen;
+}
+
+.btn.wrong {
+    background-color: darkred;
+}
+
+.start-btn, .next-btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hide {
+    display: flexbox;
 }

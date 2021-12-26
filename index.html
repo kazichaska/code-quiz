@@ -7,44 +7,43 @@
     <title>Code Quiz</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
+
     <header>
-            <div>
-                <button class="btn-header" id="viewscore">View High Scores</button>
-            </div>
-            <div>
-                <p>Time: <span id="countdown">75</span></p>
-            </div>
+        <h1 class="btn-header btn" id="viewscore">View High Scores</h1>
+        <p>Time: <span class="btn" id="countdown">0</span></p>
     </header>
+    <div>
+        <div id="chl-msg">Coding Quiz Challenge</div>
+    </div>
+    <div id="question-rule">
+            <p>Try to answer the following code-related questions within the time limit.
+            Keep in mind that incorrect answers will penalize your score/time
+            by ten seconds! After you pick your answer please click <strong>Next</strong> to move to next question!</p>
+    </div>
+    <div id="container">
+            <div id="question-container" class="hide">
 
-        <main id="main-container">
-            <div id="grid-container">
-                <div>
-                    <h2 id="code-quiz-display">Coding Quiz Challenge</h2>
-                </div>
-                <div class="quiz-container" id="question">
-                    <p>
-                        Try to answer the following code-related questions within the time limit.
-                        Keep in mind that incorrect answers will penalize your score/time
-                        by ten seconds!
-                    </p>
-                </div>
-                <div class="flex">
-                    <button class="btn" id="question-1"></button>
-                    <!-- <button class="btn" id="question-2"></button>
-                    <button class="btn" id="question-3"></button>
-                    <button class="btn" id="question-4"></button> -->
-                    <button class="btn" id="answer-1"></button>
-                    <button class="btn" id="answer-2"></button>
-                    <button class="btn" id="answer-3"></button>
-                    <button class="btn" id="answer-4"></button>
+                <div id="question">Questions:</div>
+                    <div id="answer-buttons" class="btn-grid">      
+                        <button class="btn">Answer 1</button>
+                        <button class="btn">Answer 2</button>
+                        <button class="btn">Answer 3</button>
+                        <button class="btn">Answer 4</button>
+                        <button class="btn">Answer 5</button>
+                    </div>
 
-                    <button class="btn" id="submit-score"></button>
+                    <div class="controls">   
+                        <button id="score-btn" class="score-btn btn"></button>
+                        <button id="submit-btn" class="submit-btn btn"></button>
+                        <button id="start-btn" class="start-btn btn">Start Quiz</button>
+                        <button id="next-btn" class="next-btn btn">Next</button>
+                    </div>
                 </div>
-                <div id="score"></div>
-                <button style="margin: 0 auto;" class="btn" id="startquiz">Start Quiz</button>
             </div>
-        </main>
+        </div>
+    </div>
     
     <script src="./assets/js/script.js"></script>
 </body>
