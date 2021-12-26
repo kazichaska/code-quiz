@@ -5,13 +5,14 @@ const questionContainerEl = document.getElementById('question-container')
 
 const questionEl = document.getElementById('question')
 const answerBtnEl = document.getElementById('answer-buttons')
-// var resultScoreEl = document.getElementById("score");
-let shuffledQuestions, currentQuestionIndex;
+var resultScoreEl = document.getElementById("viewscore");
+let shuffledQuestions;
+let currentQuestionIndex = 0;
 var timerEl = document.getElementById("countdown");
 // var scoreEl = document.getElementById("viewscore");
 let timeLeft = 75;
 let secondLeft;
-var score;
+var score = 0;
 
 // const heading = document.createElement("h1");
 // const heading_text = document.createTextNode("Code Quiz Challenge!");
@@ -28,11 +29,16 @@ var score;
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
     currentQuestionIndex++
-    NextQuestion()
+    if (currentQuestionIndex === questions.length) {
+        endGame();
+    } else {
+        NextQuestion()
+    }
 })
 
 function startGame() {
     console.log('Game Started!')
+    window.alert('Game Started!')
     // startTimer()
     startButton.classList.add('hide')
     shuffledQuestions = questions.sort(() => Math.random() - .5)
@@ -41,10 +47,10 @@ function startGame() {
     NextQuestion()
 }
 
-// // start timer function
-// function startTimer() {
-//     interval = setInterval(countDown, 1000)
-// }
+// start timer function
+function startTimer() {
+    interval = setInterval(countDown, 1000)
+}
 
 // // countdown function
 // function countDown() {
@@ -53,10 +59,10 @@ function startGame() {
 //     document.getElementById("timerEl").innerText = `Time remaining: ${timeLeft}`
 // }
 
-// // stop timer function
-// function stopTimer() {
-//     clearInterval(interval)
-// }
+// stop timer function
+function stopTimer() {
+    clearInterval(interval)
+}
 
 function NextQuestion() {
     resetState()
@@ -98,6 +104,7 @@ function pickAnswer(e) {
         startButton.innerText = 'Start Over'
         startButton.classList.remove('hide')
     }
+    scoreTotal(correct)
 }
 
 function statusClass(element, correct) {
@@ -107,24 +114,34 @@ function statusClass(element, correct) {
     } else {
         element.classList.add('wrong')
     }
-    // scoreTotal()
 }
 
-function scoreTotal() {
-    if (scoreTemp = (document.body.innerText = "correct")) {
+function scoreTotal(correct) {
+    if (correct) {
         score += 10;
     } else {
         score -= 10;
     }
-    console.log(score);
-    return score;
-    // console.log(score)
+    console.log(score)
+    resultScoreEl.textContent = 'View High Scores ' + score
     // return score;
 }
 
 function clearStatusClass(element) {
     element.classList.remove('correct')
     element.classList.remove('wrong')
+}
+
+function endGame() {
+    console.log("Game Ended!")
+    window.alert("Game Ended!" + 'total score ' + score)
+    // stopTimer()
+    resetState()
+    clearInterval()
+    startButton.classList.add('hide')
+    currentQuestionIndex = 0
+    questionContainerEl.classList.remove('hide')
+    NextQuestion()
 }
 
 // Array with the question and answers

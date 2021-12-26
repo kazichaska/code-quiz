@@ -95,7 +95,7 @@ header {
 
 .btn-grid {
     display: grid;
-    grid-template-rows: repeat(3, auto);
+    grid-template-areas: repeat(3, auto);
     gap: 10px;
     margin: 20px 0;
 }
@@ -115,13 +115,13 @@ header {
     background-color: darkorchid;
 }
 
-.btn.correct {
+/* .btn.correct {
     background-color: darkgreen;
 }
 
 .btn.wrong {
     background-color: darkred;
-}
+} */
 
 .start-btn, .next-btn {
     font-size: 1.5rem;
@@ -135,6 +135,6 @@ header {
     align-items: center;
 }
 
-.hide {
-    display: flexbox;
-}
+/* .hide {
+    display: none;
+} */
