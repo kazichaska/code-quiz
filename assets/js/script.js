@@ -1,50 +1,40 @@
-// creating all variables here using getElementById
+// creating all variables
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
 const questionContainerEl = document.getElementById('question-container')
-
+const highScoresEl = document.getElementById("highscores")
+highScoresEl.style.visibility = 'hidden'
 const questionEl = document.getElementById('question')
 const answerBtnEl = document.getElementById('answer-buttons')
 var resultScoreEl = document.getElementById("viewscore");
+var timerEl = document.getElementById("countdown");
+
 let shuffledQuestions;
 let currentQuestionIndex = 0;
-var timerEl = document.getElementById("countdown");
-// var scoreEl = document.getElementById("viewscore");
-// let timeLeft = 75;
-let secondLeft;
 var score = 0;
-
-// const heading = document.createElement("h1");
-// const heading_text = document.createTextNode("Code Quiz Challenge!");
-// heading.appendChild(heading_text);
-// document.head.appendChild(heading);
-
-// const heading_timer = document.createElement("button");
-// const heading_timer_text = document.createTextNode("Time:");
-// heading.appendChild(heading_timer);
-// document.head.appendChild(heading_timer_text);
+var myButtonCounter = 0;
 
 
 // Start button click
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
-    currentQuestionIndex++
     if (currentQuestionIndex === questions.length) {
         endGame();
     } else {
-        NextQuestion()
+        nextQuestion()
+        currentQuestionIndex++
     }
 })
 
+// startGame function
 function startGame() {
     console.log('Game Started!')
     window.alert('Game Started!')
-    // startTimer()
     startButton.classList.add('hide')
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionContainerEl.classList.remove('hide')
-    NextQuestion()
+    nextQuestion()
     countDown
 }
 
@@ -53,35 +43,25 @@ function startTimer() {
     interval = setInterval(countDown, 1000)
 }
 
-// countdown function
-// function countDown() {
-//     for (let i = 0; i <= timeLeft i-- ){
-
-//     }
-//     if (timeLeft >= 0) {
-//         showQuestion();
-//         timeLeft--
-//         timerEl.textContent = `Time: ${timeLeft}`
-//         // timerEl.textContent = timeLeft
-//     }
-// }
-
+// count down timer
 var timeleft = 75;
 var countDown = setInterval(function(){
   if(timeleft <= 0){
-    clearInterval(downloadTimer);
+    clearInterval(countDown);
   }
   document.getElementById("countdown").value = 75 - timeleft;
   timeleft -= 1;
 }, 1000)
 
 // stop timer function
-// function stopTimer() {
-//     console.log(interval)
-//     clearInterval(interval)
-// }
+function stopTimer() {
+    console.log(countDown)
+    clearInterval()
+}
 
-function NextQuestion() {
+// Function for nextQuestion
+function nextQuestion() {
+    myButtonCounter = 0
     resetState()
     showQuestion(shuffledQuestions[currentQuestionIndex])
 }
@@ -108,8 +88,14 @@ function resetState() {
     }
 }
 
+
 function pickAnswer(e) {
+    if (myButtonCounter > 0) {
+        return false;
+    } 
+    myButtonCounter ++
     const buttonSelected = e.target
+    console.log(e.target)
     const correct = buttonSelected.dataset.correct
     statusClass(document.body, correct)
     Array.from(answerBtnEl.children).forEach(button => {
@@ -142,7 +128,6 @@ function scoreTotal(correct) {
     console.log(score)
     resultScoreEl.textContent = 'View High Scores ' + score
     timerEl.textContent = timeleft
-    // return score;
 }
 
 function clearStatusClass(element) {
@@ -153,12 +138,13 @@ function clearStatusClass(element) {
 function endGame() {
     console.log("Game Ended!")
     window.alert("Game Ended! " + ' total score ' + score)
-    // stopTimer()
+    stopTimer()
     resetState()
     startButton.classList.remove('hide')
+    highScoresEl.style.visibility = 'visible'
     score = 0;
     currentQuestionIndex = 0
-    questionContainerEl.classList.add('hide')
+    questionEl.remove()
 }
 
 // Array with the question and answers
