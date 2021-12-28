@@ -13,12 +13,8 @@
 /* Start of body */
 body {
     padding: 50px;
-    /* margin: 50px; */
     width: 100vw;
     height: 100vh;
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
 }
 
 /* End of body */
@@ -36,7 +32,6 @@ header {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 20px;
-    /* border: 1px solid red; */
     width: 100%;
     font-family: var(--lucida);
 }
@@ -46,7 +41,7 @@ header {
     background-color: teal;
     text-decoration: none;
     border: 0;
-    outline: 0; /* Remove border around button */
+    outline: 0;
     color: blueviolet;
     font-family: var(--lucida);
     font-size: 22px;
@@ -115,19 +110,22 @@ header {
     background-color: darkorchid;
 }
 
-/* .btn.correct {
-    background-color: darkgreen;
+.start-btn, .next-btn {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 5px 10px;
 }
 
-.btn.wrong {
-    background-color: darkred;
-} */
-
-.start-btn, .next-btn {
+.high-score-btn {
     font-size: 1.5rem;
     font-weight: bold;
     padding: 10px 20px;
 }
+
+.input-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
 
 .controls {
     display: flex;
@@ -135,6 +133,8 @@ header {
     align-items: center;
 }
 
-.hide {
-    display:-moz-popup;
+.inputcontrols {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

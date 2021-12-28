@@ -11,7 +11,7 @@
 <body>
 
     <header>
-        <h1 class="btn-header btn" id="viewscore">View High Scores</h1>
+        <h1 class="btn-header btn" id="viewscore">View Score</h1>
         <p>Time: <span class="btn" id="countdown">75</span></p>
     </header>
     <div>
@@ -31,19 +31,27 @@
                         <button class="btn">Answer 2</button>
                         <button class="btn">Answer 3</button>
                         <button class="btn">Answer 4</button>
-                        <button class="btn">Answer 5</button>
                     </div>
 
                     <div class="controls">   
-                        <button id="score-btn" class="score-btn btn"></button>
-                        <button id="submit-btn" class="submit-btn btn"></button>
                         <button id="start-btn" class="start-btn btn">Start Quiz</button>
                         <button id="next-btn" class="next-btn btn">Next</button>
+                        <!-- <textarea id="ini-area" class="initials-area"></textarea> -->
+                        <button id="highscores" class="high-score-btn btn">High Scores</button>
                     </div>
+                    
+                    <section class="inputcontrols btn">
+                        <div class="input-group">
+                            <label for="initials">Initials</label>
+                            <input type="initials" name="inistials" id="initials" placeholder="xyz" />
+                        </div>
+                        <div id="msg"></div>
+                        <button id="submit">Submit</button>
+                    </section>
+
                 </div>
             </div>
         </div>
-    </div>
     
     <script src="./assets/js/script.js"></script>
 </body>

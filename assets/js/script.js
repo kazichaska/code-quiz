@@ -1,13 +1,30 @@
 // creating all variables
-const startButton = document.getElementById('start-btn')
-const nextButton = document.getElementById('next-btn')
-const questionContainerEl = document.getElementById('question-container')
-const highScoresEl = document.getElementById("highscores")
-highScoresEl.style.visibility = 'hidden'
-const questionEl = document.getElementById('question')
-const answerBtnEl = document.getElementById('answer-buttons')
+const startButton = document.getElementById('start-btn');
+const nextButton = document.getElementById('next-btn');
+const questionContainerEl = document.getElementById('question-container');
+const questionEl = document.getElementById('question');
+const answerBtnEl = document.getElementById('answer-buttons');
 var resultScoreEl = document.getElementById("viewscore");
 var timerEl = document.getElementById("countdown");
+const highScoresEl = document.getElementById("highscores");
+highScoresEl.style.visibility = 'hidden';
+
+var sectionControlEl = document.querySelector(".inputcontrols")
+var initialsEl = document.querySelector("#initials");
+var submitButtonEl = document.querySelector("#submit");
+initialsEl.style.visibility = 'hidden';
+submitButtonEl.style.visibility = 'hidden';
+sectionControlEl.style.visibility = 'hidden';
+
+// submitButtonEl.addEventListener("click", function(event){
+//     event.preventDefault();
+
+//     var user = {
+//         firstInit: initialsEl,
+//         tempScore: score
+//     };
+//     localStorage.setItem("user", JSON.stringify(user));
+// })
 
 let shuffledQuestions;
 let currentQuestionIndex = 0;
@@ -30,6 +47,7 @@ nextButton.addEventListener('click', () => {
 function startGame() {
     console.log('Game Started!')
     window.alert('Game Started!')
+    highScoresEl.style.visibility = 'hidden'
     startButton.classList.add('hide')
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
@@ -40,7 +58,7 @@ function startGame() {
 
 // start timer function
 function startTimer() {
-    interval = setInterval(countDown, 1000)
+    interval = setInterval(countDown, 2000)
 }
 
 // count down timer
@@ -51,7 +69,7 @@ var countDown = setInterval(function(){
   }
   document.getElementById("countdown").value = 75 - timeleft;
   timeleft -= 1;
-}, 1000)
+}, 2000)
 
 // stop timer function
 function stopTimer() {
@@ -66,6 +84,7 @@ function nextQuestion() {
     showQuestion(shuffledQuestions[currentQuestionIndex])
 }
 
+// showQuestion function
 function showQuestion(question) {
     questionEl.innerHTML = question.question
     question.answers.forEach(answer => {
@@ -80,6 +99,7 @@ function showQuestion(question) {
     })
 }
 
+// resetState function
 function resetState() {
     clearStatusClass(document.body)
     nextButton.classList.add('hide')
@@ -88,7 +108,7 @@ function resetState() {
     }
 }
 
-
+// pickAnswer function
 function pickAnswer(e) {
     if (myButtonCounter > 0) {
         return false;
@@ -110,6 +130,7 @@ function pickAnswer(e) {
     scoreTotal(correct)
 }
 
+// statusClass function
 function statusClass(element, correct) {
     clearStatusClass(element)
     if (correct) {
@@ -126,8 +147,14 @@ function scoreTotal(correct) {
         score -= 10;
     }
     console.log(score)
-    resultScoreEl.textContent = 'View High Scores ' + score
+    resultScoreEl.textContent = 'View Score ' + score
     timerEl.textContent = timeleft
+    highScores(score)
+}
+
+
+function highScores(score) {
+    highScoresEl.innerText = 'High Scores ' + score
 }
 
 function clearStatusClass(element) {
@@ -142,9 +169,25 @@ function endGame() {
     resetState()
     startButton.classList.remove('hide')
     highScoresEl.style.visibility = 'visible'
+    finalScore()
     score = 0;
     currentQuestionIndex = 0
     questionEl.remove()
+}
+
+function finalScore() {
+    initialsEl.style.visibility = 'visible';
+    submitButtonEl.style.visibility = 'visible';
+    sectionControlEl.style.visibility = 'visible';
+    submitButtonEl.addEventListener("click", function(event){
+        event.preventDefault();
+    
+        var user = {
+            firstInit: initialsEl,
+            tempScore: score
+        };
+        localStorage.setItem("user", JSON.stringify(user));
+    })
 }
 
 // Array with the question and answers
