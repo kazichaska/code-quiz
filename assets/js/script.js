@@ -16,16 +16,6 @@ initialsEl.style.visibility = 'hidden';
 submitButtonEl.style.visibility = 'hidden';
 sectionControlEl.style.visibility = 'hidden';
 
-// submitButtonEl.addEventListener("click", function(event){
-//     event.preventDefault();
-
-//     var user = {
-//         firstInit: initialsEl,
-//         tempScore: score
-//     };
-//     localStorage.setItem("user", JSON.stringify(user));
-// })
-
 let shuffledQuestions;
 let currentQuestionIndex = 0;
 var score = 0;
