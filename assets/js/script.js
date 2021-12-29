@@ -9,18 +9,11 @@ var timerEl = document.getElementById("countdown");
 const highScoresEl = document.getElementById("highscores");
 highScoresEl.style.visibility = 'hidden';
 
-var sectionControlEl = document.querySelector(".inputcontrols")
-var initialsEl = document.querySelector("#initials");
-var submitButtonEl = document.querySelector("#submit");
-initialsEl.style.visibility = 'hidden';
-submitButtonEl.style.visibility = 'hidden';
-sectionControlEl.style.visibility = 'hidden';
-
 let shuffledQuestions;
 let currentQuestionIndex = 0;
 var score = 0;
 var myButtonCounter = 0;
-
+let initials;
 
 // Start button click
 startButton.addEventListener('click', startGame)
@@ -48,7 +41,7 @@ function startGame() {
 
 // start timer function
 function startTimer() {
-    interval = setInterval(countDown, 2000)
+    interval = setInterval(countDown, 1000)
 }
 
 // count down timer
@@ -59,7 +52,7 @@ var countDown = setInterval(function(){
   }
   document.getElementById("countdown").value = 75 - timeleft;
   timeleft -= 1;
-}, 2000)
+}, 1000)
 
 // stop timer function
 function stopTimer() {
@@ -142,14 +135,13 @@ function scoreTotal(correct) {
     highScores(score)
 }
 
-
-function highScores(score) {
-    highScoresEl.innerText = 'High Scores ' + score
-}
-
 function clearStatusClass(element) {
     element.classList.remove('correct')
     element.classList.remove('wrong')
+}
+
+function highScores(score) {
+    highScoresEl.innerText = 'High Scores ' + score
 }
 
 function endGame() {
@@ -160,25 +152,29 @@ function endGame() {
     startButton.classList.remove('hide')
     highScoresEl.style.visibility = 'visible'
     finalScore()
+    highScores()
+    // getInitials()
     score = 0;
     currentQuestionIndex = 0
     questionEl.remove()
 }
 
 function finalScore() {
-    initialsEl.style.visibility = 'visible';
-    submitButtonEl.style.visibility = 'visible';
-    sectionControlEl.style.visibility = 'visible';
-    submitButtonEl.addEventListener("click", function(event){
-        event.preventDefault();
-    
+        const initials = prompt("Enter initials")    
+        console.log(initials)
+        console.log("Run high score")
+        
         var user = {
-            firstInit: initialsEl,
-            tempScore: score
-        };
+            initials: initials,
+            tempscore: score
+        }; 
+        console.log(user.initials, user.tempscore)
         localStorage.setItem("user", JSON.stringify(user));
-    })
+
+        var myScore = JSON.parse(localStorage.getItem('user'));
+        console.log(myScore);
 }
+
 
 // Array with the question and answers
 const questions = [
