@@ -104,6 +104,15 @@ header {
     outline: none;
 }
 
+.time-count {
+    border-radius: 1px solid red;
+    background-color: darkblue;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: white;
+    outline: none;
+}
+
 
 .btn:hover {
     border-color: orange;

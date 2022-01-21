@@ -5,7 +5,8 @@ const questionContainerEl = document.getElementById('question-container');
 const questionEl = document.getElementById('question');
 const answerBtnEl = document.getElementById('answer-buttons');
 var resultScoreEl = document.getElementById("viewscore");
-var timerEl = document.getElementById("countdown");
+var timerContain = document.querySelector(".timer-container");
+var timeCount = document.querySelector(".time-count")
 const highScoresEl = document.getElementById("highscores");
 highScoresEl.style.visibility = 'hidden';
 
@@ -14,6 +15,8 @@ let currentQuestionIndex = 0;
 var score = 0;
 var myButtonCounter = 0;
 let initials;
+var timeleft = 75;
+var timeDeduct = 5;
 
 // Start button click
 startButton.addEventListener('click', startGame)
@@ -29,36 +32,43 @@ nextButton.addEventListener('click', () => {
 // startGame function
 function startGame() {
     console.log('Game Started!')
-    window.alert('Game Started!')
+    // window.alert('Game Started!')
+    startTimer();
     highScoresEl.style.visibility = 'hidden'
     startButton.classList.add('hide')
     shuffledQuestions = questions.sort(() => Math.random() - .5)
     currentQuestionIndex = 0
     questionContainerEl.classList.remove('hide')
-    nextQuestion()
-    countDown
+    nextQuestion();
 }
 
 // start timer function
 function startTimer() {
-    interval = setInterval(countDown, 1000)
+    timerContain = setInterval(function() {
+        timeleft --
+        timeCount.textContent = timeleft;
+        if(timeleft <= 0){
+          clearInterval(timerContain);
+          endGame();
+        }
+    }, 1000)
 }
 
 // count down timer
-var timeleft = 75;
-var countDown = setInterval(function(){
-  if(timeleft <= 0){
-    clearInterval(countDown);
-  }
-  document.getElementById("countdown").value = 75 - timeleft;
-  timeleft -= 1;
-}, 1000)
+// var countDown = setInterval(function(){
+//   timeleft --
+//   if(timeleft <= 0){
+//     Interval(countDown);
+//   }
+// //   document.getElementById("countdown").value = 75 - timeleft;
+// //   timeleft -= 1;
+// }, 1000)
 
 // stop timer function
-function stopTimer() {
-    console.log(countDown)
-    clearInterval()
-}
+// function stopTimer() {
+//     console.log(countDown)
+//     clearInterval(timerContain)
+// }
 
 // Function for nextQuestion
 function nextQuestion() {
@@ -129,10 +139,14 @@ function scoreTotal(correct) {
     } else {
         score -= 10;
     }
+
+    if (!correct) {
+        timeleft = timeleft - timeDeduct
+        timeCount.textContext = timeleft
+    }
     console.log(score)
     resultScoreEl.textContent = 'View Score ' + score
-    timerEl.textContent = timeleft
-    highScores(score)
+    highScoresEl(score)
 }
 
 function clearStatusClass(element) {
@@ -140,19 +154,19 @@ function clearStatusClass(element) {
     element.classList.remove('wrong')
 }
 
-function highScores(score) {
-    highScoresEl.innerText = 'High Scores ' + score
-}
+// function highScores(score) {
+//     highScoresEl.innerText = 'High Scores ' + score
+//     console.log(score);
+// }
 
 function endGame() {
     console.log("Game Ended!")
     window.alert("Game Ended! " + ' total score ' + score)
-    stopTimer()
+    clearInterval(timerContain)
     resetState()
     startButton.classList.remove('hide')
     highScoresEl.style.visibility = 'visible'
     finalScore()
-    highScores()
     // getInitials()
     score = 0;
     currentQuestionIndex = 0
