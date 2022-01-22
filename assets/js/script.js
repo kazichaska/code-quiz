@@ -183,11 +183,13 @@ function highScores(myScore) {
     for (var i = 1; i < compareScore.length; i++ ) {
         if (highScore.tempscore > compareScore[i].tempscore) {
             var newHighScore = compareScore[i];
+            console.log(newHighScore);     
             // highScore = compareScore[i];
             // console.log(highScore);
         }
     }
     highScoresEl.textContent = newHighScore.initials + " " + newHighScore.tempscore;
+    console.log(newHighScore);
 }
 
 function endGame() {
