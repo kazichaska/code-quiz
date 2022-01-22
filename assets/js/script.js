@@ -17,38 +17,47 @@ var myButtonCounter = 0;
 let initials;
 var timeleft = 75;
 var timeDeduct = 5;
-// var myScore = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')): [];
+var myScore = JSON.parse(localStorage.getItem('user'));
+console.log(myScore);
 
 // Start button click
 startButton.addEventListener('click', startGame);
 nextButton.addEventListener('click', () => {
-    if (currentQuestionIndex === questions.length) {
+    if (currentQuestionIndex == (questions.length -1)) {
+        console.log(questions.length);
         endGame();
     } else {
-        nextQuestion()
-        currentQuestionIndex++
+        myButtonCounter++;
+        currentQuestionIndex++;
+        console.log(myButtonCounter);
+        console.log(currentQuestionIndex);
+        nextQuestion();
     }
+    // if (currentQuestionIndex === questions.length) {
+    //     endGame();
+    // }
 })
 
 // startGame function
 function startGame() {
-    console.log('Game Started!')
+    console.log('Game Started!');
     // window.alert('Game Started!')
     startTimer();
     // highScoresEl.style.visibility = 'hidden'
     // highScoresEl.remove();
     // startButton.classList.add('hide')
-    startButton.style.visibility = 'hidded'
-    shuffledQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0
-    questionContainerEl.classList.remove('hide')
+    startButton.style.visibility = 'hidded';
+    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    currentQuestionIndex = 0;
+    questionContainerEl.classList.remove('hide');
+    highScoresEl.textContent = " ";
     nextQuestion();
 }
 
 // start timer function
 function startTimer() {
     timerContain = setInterval(function() {
-        timeleft --
+        timeleft --;
         timeCount.textContent = timeleft;
         if(timeleft <= 0){
           clearInterval(timerContain);
@@ -75,64 +84,72 @@ function startTimer() {
 
 // Function for nextQuestion
 function nextQuestion() {
-    myButtonCounter = 0
-    resetState()
-    showQuestion(shuffledQuestions[currentQuestionIndex])
+    // myButtonCounter = 0
+    
+    resetState();
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+
+    // if (!(currentQuestionIndex === questions.length)) {
+    //     showQuestion(shuffledQuestions[currentQuestionIndex])
+    // } else {
+    //     endGame();
+    // }
 }
 
 // showQuestion function
 function showQuestion(question) {
-    questionEl.innerHTML = question.question
+    questionEl.innerHTML = question.question;
     question.answers.forEach(answer => {
-        const button = document.createElement('button')
-        button.innerText = answer.text
-        button.classList.add('btn')
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
         if (answer.correct) {
-            button.dataset.correct = answer.correct
+            button.dataset.correct = answer.correct;
         }
-        button.addEventListener('click', pickAnswer)
-        answerBtnEl.appendChild(button)
+        button.addEventListener('click', pickAnswer);
+        answerBtnEl.appendChild(button);
     })
 }
 
 // resetState function
 function resetState() {
-    clearStatusClass(document.body)
-    nextButton.classList.add('hide')
+    clearStatusClass(document.body);
+    // nextButton.classList.add('hide')
     while (answerBtnEl.firstChild) {
-        answerBtnEl.removeChild(answerBtnEl.firstChild)
+        answerBtnEl.removeChild(answerBtnEl.firstChild);
     }
 }
 
 // pickAnswer function
 function pickAnswer(e) {
     if (myButtonCounter > 0) {
-        return false;
+        myButtonCounter = 0;
+        // return false;
     } 
-    myButtonCounter ++
-    const buttonSelected = e.target
-    console.log(e.target)
-    const correct = buttonSelected.dataset.correct
-    statusClass(document.body, correct)
+    // myButtonCounter++
+    const buttonSelected = e.target;
+    console.log(e.target);
+    const correct = buttonSelected.dataset.correct;
+    statusClass(document.body, correct);
     Array.from(answerBtnEl.children).forEach(button => {
-        statusClass(button, button.dataset.correct)
+        statusClass(button, button.dataset.correct);
     })
     if (shuffledQuestions.length > currentQuestionIndex +1) {
-        nextButton.classList.remove('hide')
+        nextButton.classList.remove('hide');
     } else {
-        startButton.innerText = 'Start Over'
-        startButton.classList.remove('hide')
+        startButton.innerText = 'Start Over';
+        startButton.classList.remove('hide');
     }
-    scoreTotal(correct)
+    scoreTotal(correct);
 }
 
 // statusClass function
 function statusClass(element, correct) {
-    clearStatusClass(element)
+    clearStatusClass(element);
     if (correct) {
-        element.classList.add('correct')
+        element.classList.add('correct');
     } else {
-        element.classList.add('wrong')
+        element.classList.add('wrong');
     }
 }
 
@@ -144,37 +161,48 @@ function scoreTotal(correct) {
     }
 
     if (!correct) {
-        timeleft = timeleft - timeDeduct
-        timeCount.textContext = timeleft
+        timeleft = timeleft - timeDeduct;
+        timeCount.textContext = timeleft;
     }
     console.log(score)
-    resultScoreEl.textContent = 'View Score ' + score
+    resultScoreEl.textContent = 'View Score ' + score;
     // highScoresEl(score)
 }
 
 function clearStatusClass(element) {
-    element.classList.remove('correct')
-    element.classList.remove('wrong')
+    element.classList.remove('correct');
+    element.classList.remove('wrong');
 }
 
-function highScores(user) {
-    highScoresEl.textContent = 'High Scores ' + (user.tempscore) + '  Initials  ' + (user.initials);
-    console.log(user.tempscore);
+function highScores(myScore) {
+    // highScoresEl.textContent = 'High Scores ' + (myScore.tempscore) + '  Initials  ' + (myScore.initials);
+    console.log(myScore[1]);
+    var compareScore = JSON.parse(localStorage.getItem('user', myScore));
+    console.log(compareScore);
+    var highScore = compareScore[0];
+    for (var i = 1; i < compareScore.length; i++ ) {
+        if (highScore.tempscore > compareScore[i].tempscore) {
+            var newHighScore = compareScore[i];
+            // highScore = compareScore[i];
+            // console.log(highScore);
+        }
+    }
+    highScoresEl.textContent = newHighScore.initials + " " + newHighScore.tempscore;
 }
 
 function endGame() {
     // highScoresEl.style.visibility = 'visible'
-    console.log("Game Ended!")
+    console.log("Game Ended!");
     // window.alert("Game Ended! " + ' total score ' + score)
-    clearInterval(timerContain)
-    resetState()
-    startButton.classList.remove('hide')
-    highScoresEl.style.visibility = 'visible'
-    finalScore()
+    clearInterval(timerContain);
+    resetState();
+    startButton.classList.remove('hide');
+    highScoresEl.style.visibility = 'visible';
+    finalScore();
     // getInitials()
     score = 0;
-    currentQuestionIndex = 0
-    questionEl.remove()
+    currentQuestionIndex = 0;
+    questionEl.remove();
 }
 
 function finalScore() {
@@ -186,11 +214,15 @@ function finalScore() {
             initials: initials,
             tempscore: score
         }; 
-        console.log(user.initials, user.tempscore)
-        localStorage.setItem("user", JSON.stringify(user));
-
-        JSON.parse(localStorage.getItem('user', (user)));
-        highScores(user);
+        // console.log(user.initials, user.tempscore)
+        if (myScore === null) {
+            myScore = [];
+        }
+        myScore.push(user)
+        localStorage.setItem("user", JSON.stringify(myScore));
+        
+        JSON.parse(localStorage.getItem('user', myScore));
+        highScores(myScore);
 }
 
 
