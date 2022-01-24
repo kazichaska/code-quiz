@@ -176,20 +176,34 @@ function clearStatusClass(element) {
 
 function highScores(myScore) {
     // highScoresEl.textContent = 'High Scores ' + (myScore.tempscore) + '  Initials  ' + (myScore.initials);
-    console.log(myScore[1]);
+    // console.log(myScore[1]);
     var compareScore = JSON.parse(localStorage.getItem('user', myScore));
-    console.log(compareScore);
-    var highScore = compareScore[0];
-    for (var i = 1; i < compareScore.length; i++ ) {
-        if (highScore.tempscore > compareScore[i].tempscore) {
-            var newHighScore = compareScore[i];
-            console.log(newHighScore);     
-            // highScore = compareScore[i];
-            // console.log(highScore);
+    // console.log(compareScore);
+    // var highScore = compareScore[0];
+    var highScore = myScore[0].tempscore;
+    console.log(highScore);
+    // for (var i = 1; i < compareScore.length; i++ ) {
+    //     if (highScore.tempscore > compareScore[i].tempscore) {
+    //         var newHighScore = {
+    //             initials: highScore.initials,
+    //             tempscore: highScore.tempscore
+    //         };
+    //         console.log(newHighScore);     
+    //         // highScore = compareScore[i];
+    //         // console.log(highScore);
+    //     }
+    // }
+    // console.log(myScore[i].tempscore);
+    for (i = 0; i < myScore.length; i ++) {
+        if (highScore > myScore[i].tempscore) {
+            highScoresEl.textContent = highScore + " " + myScore[i].initials;
+            console.log(myScore[i].initials);
         }
+        else {
+            highScoresEl.textContent = highScore + " " + myScore[0].initials;
+        // console.log(newHighScore);
+        } 
     }
-    highScoresEl.textContent = newHighScore.initials + " " + newHighScore.tempscore;
-    console.log(newHighScore);
 }
 
 function endGame() {
