@@ -148,18 +148,17 @@ function clearStatusClass(element) {
 // highScores function
 function highScores(myScore) {
 
-    var highScore = myScore[0].tempscore;
-    console.log(highScore);
-    highScoresEl.textContent = "High Score so far is : " + score + " your initials : " + myScore[0].initials;
+    var highScore = myScore;
+    console.log(myScore);
     // console.log(myScore[i].tempscore);
-    for (i = 1; i < myScore.length; i ++) {
-        if (highScore > myScore[i].tempscore) {
-            highScoresEl.textContent = "High Score so far is : " + highScore + " your initials : " + myScore[i].initials;
+    for (i = 0; i < myScore.length; i ++) {
+        if (highScore.tempscore >= myScore[i].tempscore) {
+            highScoresEl.textContent = "High Score so far is : " + highScore.tempscore + " your initials : " + myScore[i].initials;
             console.log(myScore[i].initials);
         }
         else {
-            highScore = myScore[i].tempscore;
-            highScoresEl.textContent = "High Score so far is : " + highScore + "  your initials : " + myScore[0].initials;
+            highScore.tempscore = myScore[i].tempscore;
+            highScoresEl.textContent = "High Score so far is : " + highScore.tempscore + "  your initials : " + myScore[i].initials;
         // console.log(newHighScore);
         } 
     }
