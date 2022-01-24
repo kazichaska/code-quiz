@@ -175,9 +175,8 @@ function clearStatusClass(element) {
 }
 
 function highScores(myScore) {
-    // highScoresEl.textContent = 'High Scores ' + (myScore.tempscore) + '  Initials  ' + (myScore.initials);
-    // console.log(myScore[1]);
-    var compareScore = JSON.parse(localStorage.getItem('user', myScore));
+    
+    // var compareScore = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')): [];
     // console.log(compareScore);
     // var highScore = compareScore[0];
     var highScore = myScore[0].tempscore;
@@ -194,13 +193,14 @@ function highScores(myScore) {
     //     }
     // }
     // console.log(myScore[i].tempscore);
-    for (i = 0; i < myScore.length; i ++) {
+    for (i = 1; i < myScore.length; i ++) {
         if (highScore > myScore[i].tempscore) {
-            highScoresEl.textContent = highScore + " " + myScore[i].initials;
+            highScoresEl.textContent = "High Score so far is : " + highScore + " your initials : " + myScore[i].initials;
             console.log(myScore[i].initials);
         }
         else {
-            highScoresEl.textContent = highScore + " " + myScore[0].initials;
+            highScore = myScore[i].tempscore;
+            highScoresEl.textContent = "High Score so far is : " + highScore + "  your initials : " + myScore[0].initials;
         // console.log(newHighScore);
         } 
     }
