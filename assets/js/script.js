@@ -150,6 +150,7 @@ function highScores(myScore) {
 
     var highScore = myScore[0].tempscore;
     console.log(highScore);
+    highScoresEl.textContent = "High Score so far is : " + score + " your initials : " + myScore[0].initials;
     // console.log(myScore[i].tempscore);
     for (i = 1; i < myScore.length; i ++) {
         if (highScore > myScore[i].tempscore) {
