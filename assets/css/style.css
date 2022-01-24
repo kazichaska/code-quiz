@@ -19,6 +19,7 @@ body {
 
 /* End of body */
 
+/* header */
 header {
     display: flex; 
     justify-content: space-between;
@@ -35,7 +36,8 @@ header {
     width: 100%;
     font-family: var(--lucida);
 }
- 
+
+/* button header */
 .btn-header {
     border-radius: 10px;
     background-color: teal;
@@ -48,6 +50,7 @@ header {
     font-size: 2vw;;
 }
 
+/* container */
 .container {
     width: 800px;
     max-width: 80%;
@@ -57,6 +60,7 @@ header {
     box-shadow: 0 0 10px 2px;
 }
 
+/* message and question start */
 #chl-msg {
     padding-top: 100px;
     display: flex;
@@ -88,6 +92,9 @@ header {
     font-size: 3vw;;
 }
 
+/* message and question end */
+
+/* button grid */
 .btn-grid {
     display: grid;
     grid-template-areas: repeat(3, auto);
@@ -104,6 +111,7 @@ header {
     outline: none;
 }
 
+/* time count */
 .time-count {
     border-radius: 1px solid red;
     background-color: darkblue;

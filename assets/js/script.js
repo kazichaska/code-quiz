@@ -33,19 +33,12 @@ nextButton.addEventListener('click', () => {
         console.log(currentQuestionIndex);
         nextQuestion();
     }
-    // if (currentQuestionIndex === questions.length) {
-    //     endGame();
-    // }
 })
 
 // startGame function
 function startGame() {
     console.log('Game Started!');
-    // window.alert('Game Started!')
     startTimer();
-    // highScoresEl.style.visibility = 'hidden'
-    // highScoresEl.remove();
-    // startButton.classList.add('hide')
     startButton.style.visibility = 'hidded';
     shuffledQuestions = questions.sort(() => Math.random() - .5);
     currentQuestionIndex = 0;
@@ -66,34 +59,11 @@ function startTimer() {
     }, 1000)
 }
 
-// count down timer
-// var countDown = setInterval(function(){
-//   timeleft --
-//   if(timeleft <= 0){
-//     Interval(countDown);
-//   }
-// //   document.getElementById("countdown").value = 75 - timeleft;
-// //   timeleft -= 1;
-// }, 1000)
-
-// stop timer function
-// function stopTimer() {
-//     console.log(countDown)
-//     clearInterval(timerContain)
-// }
-
 // Function for nextQuestion
 function nextQuestion() {
     // myButtonCounter = 0
-    
     resetState();
     showQuestion(shuffledQuestions[currentQuestionIndex]);
-
-    // if (!(currentQuestionIndex === questions.length)) {
-    //     showQuestion(shuffledQuestions[currentQuestionIndex])
-    // } else {
-    //     endGame();
-    // }
 }
 
 // showQuestion function
@@ -153,6 +123,7 @@ function statusClass(element, correct) {
     }
 }
 
+// Score total function
 function scoreTotal(correct) {
     if (correct) {
         score += 10;
@@ -166,32 +137,19 @@ function scoreTotal(correct) {
     }
     console.log(score)
     resultScoreEl.textContent = 'View Score ' + score;
-    // highScoresEl(score)
 }
 
+// clearStatusClass function
 function clearStatusClass(element) {
     element.classList.remove('correct');
     element.classList.remove('wrong');
 }
 
+// highScores function
 function highScores(myScore) {
-    
-    // var compareScore = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')): [];
-    // console.log(compareScore);
-    // var highScore = compareScore[0];
+
     var highScore = myScore[0].tempscore;
     console.log(highScore);
-    // for (var i = 1; i < compareScore.length; i++ ) {
-    //     if (highScore.tempscore > compareScore[i].tempscore) {
-    //         var newHighScore = {
-    //             initials: highScore.initials,
-    //             tempscore: highScore.tempscore
-    //         };
-    //         console.log(newHighScore);     
-    //         // highScore = compareScore[i];
-    //         // console.log(highScore);
-    //     }
-    // }
     // console.log(myScore[i].tempscore);
     for (i = 1; i < myScore.length; i ++) {
         if (highScore > myScore[i].tempscore) {
@@ -206,26 +164,22 @@ function highScores(myScore) {
     }
 }
 
+// endGame function
 function endGame() {
-    // highScoresEl.style.visibility = 'visible'
-    console.log("Game Ended!");
-    // window.alert("Game Ended! " + ' total score ' + score)
+    
     clearInterval(timerContain);
     resetState();
     startButton.classList.remove('hide');
     highScoresEl.style.visibility = 'visible';
     finalScore();
-    // getInitials()
     score = 0;
     currentQuestionIndex = 0;
     questionEl.remove();
 }
 
+// finalScore function
 function finalScore() {
         const initials = prompt("Enter initials")    
-        // console.log(initials)
-        // console.log("Run high score")
-        
         var user = {
             initials: initials,
             tempscore: score
@@ -240,7 +194,6 @@ function finalScore() {
         JSON.parse(localStorage.getItem('user', myScore));
         highScores(myScore);
 }
-
 
 // Array with the question and answers
 const questions = [
