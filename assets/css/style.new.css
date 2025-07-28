@@ -110,20 +110,14 @@ header {
 
 #chl-msg {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin: 20px 0;
-    font-weight: bold;
-    color: var(--text-white);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 #question-rule {
     text-align: center;
     font-size: 1.2rem;
-    margin: 25px 0;
-    line-height: 1.6;
-    max-width: 800px;
-    padding: 0 20px;
+    margin: 15px 0;
 }
 
 /* Button Styles */
@@ -164,9 +158,9 @@ header {
 
 /* Control Buttons */
 #start-btn, #next-btn, .high-score-btn {
-    font-size: 1.4rem;
-    padding: 20px 40px;
-    margin: 30px auto;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+    margin: 20px auto;
     display: block;
     background: var(--button-gradient);
     color: var(--text-white);
@@ -177,8 +171,7 @@ header {
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: bold;
-    min-width: 250px;
-    text-align: center;
+    min-width: 200px;
 }
 
 #start-btn:hover, #next-btn:hover, .high-score-btn:hover {
@@ -186,128 +179,17 @@ header {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Modal Styles */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-    background: var(--primary-gradient);
-    padding: 30px;
-    border-radius: 15px;
-    max-width: 500px;
-    width: 90%;
+/* High Scores */
+#highscores {
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.modal-content h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--text-white);
-}
-
-.score-input {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
     margin-top: 20px;
-}
-
-.score-input label {
-    font-size: 1.1rem;
-    color: var(--text-white);
-}
-
-.score-input input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
     background: rgba(255, 255, 255, 0.1);
-    color: var(--text-white);
-    font-size: 1.1rem;
-    text-align: center;
-    width: 100px;
-    margin: 0 auto;
-}
-
-.score-input input:focus {
-    outline: none;
-    border-color: var(--button-gradient);
-    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
-}
-
-/* High Scores Display */
-.scores-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--primary-gradient);
-    padding: 30px;
-    border-radius: 15px;
-    max-width: 600px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    animation: fadeIn 0.3s ease;
-}
-
-.scores-container h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: var(--text-white);
-}
-
-#scores-list {
-    margin: 20px 0;
-    max-height: 300px;
-    overflow-y: auto;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-}
-
-#scores-list .score-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    margin: 5px 0;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    transition: transform 0.2s ease;
-}
-
-#scores-list .score-item:hover {
-    transform: translateX(5px);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.score-item .initials {
-    font-weight: bold;
-    color: #96c93d;
-}
-
-.score-item .score {
-    color: #667eea;
-}
-
-.score-item .date {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    animation: fadeIn 0.5s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Controls Container */
