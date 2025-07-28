@@ -1,4 +1,22 @@
-# JavaScript Code Quiz
+# JavaScript Code Quiz 🎯
+
+### Link of deployed application: 
+https://kazichaska.github.io/code-quiz/
+
+### Description:
+An interactive and engaging JavaScript quiz application that tests your web development knowledge with a mix of technical questions and programming humor. The quiz features:
+
+- 🎲 Randomly shuffled questions each time you play
+- ⏱️ Timed challenges with 75 seconds on the clock
+- 📊 Dynamic scoring system (+10 for correct, -5 for incorrect answers)
+- 🏆 High score tracking with local storage
+- 🎨 Engaging UI with immediate feedback
+- 😄 Fun, emoji-enhanced questions covering JavaScript, CSS, and web development
+
+Perfect for:
+- Web developers testing their knowledge
+- Students learning JavaScript fundamentals
+- Anyone who enjoys coding challenges with a touch of humorcript Code Quiz
 
 ### Link of deployed application: 
 https://kazichaska.github.io/code-quiz/
@@ -31,8 +49,55 @@ https://kazichaska.github.io/code-quiz/
     THEN I can save my initials and score
     ```
 
-### Screenshots of the code
-![index](./images/index.png)
-![script](./images/script.png)
-![application](./images/Code_Quiz.png)
-![application#1](./images/Code_Quiz_App.png)
+### Features in Detail
+
+1. **Question Pool**
+   - 10 diverse questions covering JavaScript concepts
+   - Each question features emoji icons for visual engagement
+   - Mix of technical questions and programming jokes
+
+2. **Scoring System**
+   - +10 points for each correct answer
+   - -5 points for incorrect answers
+   - Time penalty of 5 seconds for wrong answers
+
+3. **High Score System**
+   - Persistent storage of scores
+   - Displays player initials, score, and date
+   - Sortable high score list
+   - Quick access to highest score
+
+4. **User Interface**
+   - Clean, modern design
+   - Immediate visual feedback for answers
+   - Progress tracking through questions
+   - Responsive layout for all devices
+
+### How to Play
+1. Click "Start" to begin the quiz
+2. Answer each question within the time limit
+3. Watch your score grow with correct answers
+4. Enter your initials when finished
+5. Compare your score with others on the leaderboard
+
+### Screenshots
+![Quiz Start Screen](./images/code_quiz.png)
+*The welcoming start screen of the quiz*
+
+![Question Interface](./images/code_quiz1.png)
+*Interactive question interface with immediate feedback*
+
+### Technical Implementation
+
+The application is built using:
+- HTML5 for structure
+- CSS3 for styling and animations
+- Vanilla JavaScript for functionality
+- Local Storage API for score persistence
+
+### Future Enhancements
+- Additional question categories
+- Difficulty levels
+- Sound effects
+- Social sharing features
+- More detailed statistics tracking
