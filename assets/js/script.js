@@ -8,7 +8,7 @@ var resultScoreEl = document.getElementById("viewscore");
 var timerContain = document.querySelector(".timer-container");
 var timeCount = document.querySelector(".time-count")
 var highScoresEl = document.getElementById("highscores");
-highScoresEl.style.visibility = 'hidden';
+highScoresEl.classList.add('hide');
 
 let shuffledQuestions;
 let currentQuestionIndex = 0;
@@ -22,15 +22,20 @@ console.log(myScore);
 
 // Start button click
 startButton.addEventListener('click', startGame);
+
+// High scores button click
+document.getElementById('highscores').addEventListener('click', () => {
+    if (myScore) {
+        showHighScores(myScore);
+    }
+});
 nextButton.addEventListener('click', () => {
-    if (currentQuestionIndex == (questions.length -1)) {
-        console.log(questions.length);
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex >= questions.length) {
         endGame();
     } else {
-        myButtonCounter++;
-        currentQuestionIndex++;
-        console.log(myButtonCounter);
-        console.log(currentQuestionIndex);
+        nextButton.classList.add('hide');
         nextQuestion();
     }
 })
@@ -39,11 +44,22 @@ nextButton.addEventListener('click', () => {
 function startGame() {
     console.log('Game Started!');
     startTimer();
-    startButton.style.visibility = 'hidded';
-    shuffledQuestions = questions.sort(() => Math.random() - .5);
+    startButton.classList.add('hide');
+    nextButton.classList.add('hide');
+    
+    // Create a copy and shuffle the questions
+    shuffledQuestions = [...questions];
+    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+    }
+    
     currentQuestionIndex = 0;
+    score = 0; // Reset score at start
+    resultScoreEl.textContent = 'Score: 0';
     questionContainerEl.classList.remove('hide');
-    highScoresEl.textContent = " ";
+    highScoresEl.textContent = "";
+    highScoresEl.classList.add('hide');
     nextQuestion();
 }
 
@@ -73,9 +89,7 @@ function showQuestion(question) {
         const button = document.createElement('button');
         button.innerText = answer.text;
         button.classList.add('btn');
-        if (answer.correct) {
-            button.dataset.correct = answer.correct;
-        }
+        button.dataset.correct = answer.correct.toString(); // Explicitly set true/false as string
         button.addEventListener('click', pickAnswer);
         answerBtnEl.appendChild(button);
     })
@@ -92,24 +106,29 @@ function resetState() {
 
 // pickAnswer function
 function pickAnswer(e) {
-    if (myButtonCounter > 0) {
-        myButtonCounter = 0;
-        // return false;
-    } 
-    // myButtonCounter++
     const buttonSelected = e.target;
-    console.log(e.target);
-    const correct = buttonSelected.dataset.correct;
-    statusClass(document.body, correct);
-    Array.from(answerBtnEl.children).forEach(button => {
-        statusClass(button, button.dataset.correct);
-    })
-    if (shuffledQuestions.length > currentQuestionIndex +1) {
-        nextButton.classList.remove('hide');
-    } else {
-        startButton.innerText = 'Start Over';
-        startButton.classList.remove('hide');
+    
+    // Prevent multiple clicks on answers
+    if (buttonSelected.classList.contains('answered')) {
+        return;
     }
+    
+    const correct = buttonSelected.dataset.correct === 'true'; // Convert string to boolean
+    statusClass(document.body, correct);
+    
+    // Mark all buttons as answered and show correct/wrong
+    Array.from(answerBtnEl.children).forEach(button => {
+        button.classList.add('answered');
+        const isCorrect = button.dataset.correct === 'true';
+        statusClass(button, isCorrect);
+    });
+    
+    nextButton.classList.remove('hide');
+    
+    if (currentQuestionIndex === shuffledQuestions.length - 1) {
+        nextButton.innerText = 'Finish Quiz';
+    }
+    
     scoreTotal(correct);
 }
 
@@ -125,18 +144,24 @@ function statusClass(element, correct) {
 
 // Score total function
 function scoreTotal(correct) {
-    if (correct) {
+    if (correct === true) { // Explicitly check for true
         score += 10;
+        resultScoreEl.textContent = '🎯 Score: ' + score + ' (Correct! +10)';
+        resultScoreEl.classList.add('score-update');
+        setTimeout(() => resultScoreEl.classList.remove('score-update'), 300);
     } else {
-        score -= 10;
+        score = Math.max(0, score - 5); // Prevent negative scores
+        timeleft = Math.max(0, timeleft - timeDeduct);
+        timeCount.textContent = timeleft;
+        resultScoreEl.textContent = '❌ Score: ' + score + ' (Incorrect -5)';
+        resultScoreEl.classList.add('score-update');
+        setTimeout(() => resultScoreEl.classList.remove('score-update'), 300);
+        
+        if (timeleft <= 0) {
+            endGame();
+            return;
+        }
     }
-
-    if (!correct) {
-        timeleft = timeleft - timeDeduct;
-        timeCount.textContext = timeleft;
-    }
-    console.log(score)
-    resultScoreEl.textContent = 'View Score ' + score;
 }
 
 // clearStatusClass function
@@ -146,100 +171,189 @@ function clearStatusClass(element) {
 }
 
 // highScores function
-function highScores(myScore) {
+function showHighScores(scores) {
+    if (!Array.isArray(scores) || scores.length === 0) return;
 
-    var highScore = myScore;
-    console.log(myScore);
-    // console.log(myScore[i].tempscore);
-    for (i = 0; i < myScore.length; i ++) {
-        if (highScore.tempscore >= myScore[i].tempscore) {
-            highScoresEl.textContent = "High Score so far is : " + highScore.tempscore + " your initials : " + myScore[i].initials;
-            console.log(myScore[i].initials);
-        }
-        else {
-            highScore.tempscore = myScore[i].tempscore;
-            highScoresEl.textContent = "High Score so far is : " + highScore.tempscore + "  your initials : " + myScore[i].initials;
-        // console.log(newHighScore);
-        } 
+    const scoresContainer = document.getElementById('scores-display');
+    const scoresList = document.getElementById('scores-list');
+    const closeBtn = document.getElementById('close-scores');
+
+    // Sort scores in descending order
+    scores.sort((a, b) => b.tempscore - a.tempscore);
+    
+    // Clear previous scores
+    scoresList.innerHTML = '';
+    
+    // Add each score to the list
+    scores.forEach((score, index) => {
+        const scoreItem = document.createElement('div');
+        scoreItem.classList.add('score-item');
+        scoreItem.innerHTML = `
+            <span class="rank">#${index + 1}</span>
+            <span class="initials">${score.initials}</span>
+            <span class="score">${score.tempscore} points</span>
+            <span class="date">${score.date}</span>
+        `;
+        scoresList.appendChild(scoreItem);
+    });
+
+    // Show the scores container
+    scoresContainer.classList.remove('hide');
+
+    // Handle close button
+    closeBtn.onclick = function() {
+        scoresContainer.classList.add('hide');
     }
+
+    // Update the view score button text
+    highScoresEl.textContent = `High Score: ${scores[0].tempscore}`;
 }
 
 // endGame function
 function endGame() {
-    
     clearInterval(timerContain);
     resetState();
+    questionContainerEl.classList.add('hide');
     startButton.classList.remove('hide');
-    highScoresEl.style.visibility = 'visible';
+    startButton.innerText = 'Start Over';
+    highScoresEl.classList.remove('hide');
     finalScore();
     score = 0;
     currentQuestionIndex = 0;
-    questionEl.remove();
+    timeleft = 75; // Reset timer
+    timeCount.textContent = timeleft;
 }
 
 // finalScore function
 function finalScore() {
-        const initials = prompt("Enter initials")    
-        var user = {
-            initials: initials,
-            tempscore: score
+    const modal = document.getElementById('score-modal');
+    const finalScoreEl = document.getElementById('final-score');
+    const submitBtn = document.getElementById('submit-score');
+    const initialsInput = document.getElementById('initials');
+
+    finalScoreEl.textContent = score;
+    modal.classList.remove('hide');
+    initialsInput.value = ''; // Clear previous input
+
+    // Remove any existing event listeners by cloning and replacing the button
+    const newSubmitBtn = submitBtn.cloneNode(true);
+    submitBtn.parentNode.replaceChild(newSubmitBtn, submitBtn);
+
+    newSubmitBtn.addEventListener('click', function() {
+        const initials = initialsInput.value.trim();
+        
+        if (!initials || initials.length < 2 || initials.length > 3) {
+            alert("Please enter 2-3 characters for your initials");
+            return;
+        }
+        
+        const user = {
+            initials: initials.toUpperCase(),
+            tempscore: score,
+            date: new Date().toLocaleDateString()
         }; 
-        // console.log(user.initials, user.tempscore)
+
         if (myScore === null) {
             myScore = [];
         }
-        myScore.push(user)
-        localStorage.setItem("user", JSON.stringify(myScore));
         
-        JSON.parse(localStorage.getItem('user', myScore));
-        highScores(myScore);
+        myScore.push(user);
+        localStorage.setItem("user", JSON.stringify(myScore));
+        modal.classList.add('hide');
+        showHighScores(myScore);
+    });
 }
 
 // Array with the question and answers
 const questions = [
     {
-        question: "______ JavaScript is also called client-side JavaScript.",
+        question: "🤔 What happens to a JavaScript variable if you declare it but don't initialize it?",
         answers: [
-            { text: 'Microsoft', correct: false },
-            { text: 'Navigator', correct: true },
-            { text: 'LiveWire', correct: false },
-            { text: 'Native', correct: false },
+            { text: 'It becomes undefined', correct: true },
+            { text: 'It throws an error', correct: false },
+            { text: 'It gets set to null', correct: false },
+            { text: 'It creates a black hole in your code', correct: false },
         ]
     },
     {
-        question: "What are variables used for in JavaScript Programs?",
+        question: "🎮 Which of these would you use to get a random number between 1 and 10?",
         answers: [
-            { text: 'Storing numbers dates, or other values', correct: true },
-            { text: 'Varying randomly', correct: false },
-            { text: 'Causing high-school algebra flashbacks', correct: false },
-            { text: 'None of the above', correct: false },
+            { text: 'Math.random() * 10 + 1', correct: false },
+            { text: 'Math.floor(Math.random() * 10) + 1', correct: true },
+            { text: 'Math.ceiling(Math.random() * 10)', correct: false },
+            { text: 'Random.nextInt(10)', correct: false },
         ]
     },    
     {
-        question: "Which of the following is not a valid JavaScript variable name?",
+        question: "🐛 Why did the JavaScript developer quit his job?",
         answers: [
-            { text: '2names', correct: true },
-            { text: '_first_and_last_names', correct: false },
-            { text: 'FirstAndLast', correct: false },
-            { text: 'None of the above', correct: false },
+            { text: 'He didn\'t get arrays', correct: true },
+            { text: 'The coffee machine broke', correct: false },
+            { text: 'His code compiled first try', correct: false },
+            { text: 'He found a better debugger', correct: false },
         ]
     },
     {
-        question: "______ tag is an extension to HTML that can enclose any number of JavaScript statements.",
+        question: "🤖 What would be the result of: 3 + 2 + '7'",
         answers: [
-            { text: '<SCRIPT>', correct: true },
-            { text: '<BODY>', correct: false },
-            { text: '<HEAD>', correct: false },
-            { text: '<TITLE>', correct: false },
+            { text: '57', correct: true },
+            { text: '12', correct: false },
+            { text: '327', correct: false },
+            { text: 'undefined', correct: false },
         ]
-    }, 
+    },
     {
-        question: "Inside which HTML element do we put the JavaScript?",
+        question: "🎭 Which of these is NOT a JavaScript data type?",
         answers: [
-            { text: '<javascript>', correct: false },
-            { text: '<scripting>', correct: false },
-            { text: '<script>', correct: true },
-            { text: '<js>', correct: false },
+            { text: 'Undefined', correct: false },
+            { text: 'Integer', correct: true },
+            { text: 'Boolean', correct: false },
+            { text: 'Symbol', correct: false },
+        ]
+    },
+    {
+        question: "🎨 What color would RGB(255, 0, 255) give you?",
+        answers: [
+            { text: 'Blue', correct: false },
+            { text: 'Red', correct: false },
+            { text: 'Magenta', correct: true },
+            { text: 'Yellow', correct: false },
+        ]
+    },
+    {
+        question: "🌟 What's the opposite of a CSS 'display: none'?",
+        answers: [
+            { text: 'display: yes', correct: false },
+            { text: 'display: show', correct: false },
+            { text: 'display: block', correct: true },
+            { text: 'display: visible', correct: false },
+        ]
+    },
+    {
+        question: "🎪 What does the '===' operator check for?",
+        answers: [
+            { text: 'Value only', correct: false },
+            { text: 'Value and type', correct: true },
+            { text: 'Reference only', correct: false },
+            { text: 'Nothing, it\'s just for style', correct: false },
+        ]
+    },
+    {
+        question: "📦 What's the value of: typeof []",
+        answers: [
+            { text: 'array', correct: false },
+            { text: 'object', correct: true },
+            { text: 'list', correct: false },
+            { text: 'undefined', correct: false },
+        ]
+    },
+    {
+        question: "🎯 How do you catch all the fish in JavaScript?",
+        answers: [
+            { text: 'With a try...catch block!', correct: true },
+            { text: 'With a fishing rod', correct: false },
+            { text: 'Using jQuery', correct: false },
+            { text: 'You don\'t, they swim away', correct: false },
         ]
     }
-]
+];

@@ -22,27 +22,45 @@
             Keep in mind that incorrect answers will penalize your score/time
             by ten seconds! After you pick your answer please click <strong>Next</strong> to move to next question!</p>
     </div>
-    <div id="container">
+    <div class="container">
+            <button id="start-btn" class="start-btn btn">Start Quiz</button>
+            
             <div id="question-container" class="hide">
-
                 <div id="question">Questions:</div>
-                    <div id="answer-buttons" class="btn-grid">      
-                        <button class="btn">Answer 1</button>
-                        <button class="btn">Answer 2</button>
-                        <button class="btn">Answer 3</button>
-                        <button class="btn">Answer 4</button>
-                    </div>
+                <div id="answer-buttons" class="btn-grid">      
+                    <button class="btn">Answer 1</button>
+                    <button class="btn">Answer 2</button>
+                    <button class="btn">Answer 3</button>
+                    <button class="btn">Answer 4</button>
+                </div>
 
-                    <div class="controls">   
-                        <button id="start-btn" class="start-btn btn">Start Quiz</button>
-                        <button id="next-btn" class="next-btn btn">Next</button>
-                        <!-- <textarea id="ini-area" class="initials-area"></textarea> -->
-                        <button id="highscores" class="high-score-btn btn">High Scores</button>
-                    </div>
-
+                <div class="controls">   
+                    <button id="next-btn" class="next-btn btn hide">Next</button>
+                    <button id="highscores" class="high-score-btn btn">High Scores</button>
                 </div>
             </div>
+
+            <!-- Score Modal -->
+            <div id="score-modal" class="modal hide">
+                <div class="modal-content">
+                    <h2>Game Over!</h2>
+                    <p>Your final score: <span id="final-score"></span></p>
+                    <div class="score-input">
+                        <label for="initials">Enter your initials (2-3 characters):</label>
+                        <input type="text" id="initials" maxlength="3" minlength="2">
+                        <button id="submit-score" class="btn">Submit Score</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- High Scores Display -->
+            <div id="scores-display" class="scores-container hide">
+                <h2>High Scores</h2>
+                <div id="scores-list"></div>
+                <button id="close-scores" class="btn">Close Scores</button>
+            </div>
         </div>
+    </div>
     
     <script src="./assets/js/script.js"></script>
 </body>
