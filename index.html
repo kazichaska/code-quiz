@@ -4,64 +4,116 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08081a">
+    <meta name="description" content="A timed JavaScript coding quiz with instant feedback and a local high score leaderboard.">
     <title>Code Quiz</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1 class="btn-header btn" id="viewscore">View Score</h1>
-        <div class="timer-container"><p>Time: <div class="time-count">75</div></p></div>
-    </header>
-    <div>
-        <div id="chl-msg">Coding Quiz Challenge</div>
+    <div class="aurora" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
     </div>
-    <div id="question-rule">
-            <p>Try to answer the following code-related questions within the time limit.
-            Keep in mind that incorrect answers will penalize your score/time
-            by ten seconds! After you pick your answer please click <strong>Next</strong> to move to next question!</p>
-    </div>
-    <div class="container">
-            <button id="start-btn" class="start-btn btn">Start Quiz</button>
-            
+    <div class="noise" aria-hidden="true"></div>
+
+    <div class="page">
+
+        <header>
+            <div class="header-left">
+                <div id="viewscore" class="pill pill-score">
+                    <span class="pill-icon">🏆</span>
+                    <span id="score-text">Score: <strong id="score-value">0</strong></span>
+                    <span id="streak-badge" class="streak-badge hide">🔥<span id="streak-count">0</span></span>
+                </div>
+                <button id="sound-toggle" class="pill pill-icon-btn btn" type="button" aria-pressed="true" aria-label="Toggle sound effects">
+                    <span id="sound-icon">🔊</span>
+                </button>
+            </div>
+            <div class="pill timer-container">
+                <span class="pill-icon">⏱️</span>
+                <div class="timer-readout">
+                    <span><span class="time-count">75</span>s left</span>
+                    <div class="timer-track">
+                        <div class="timer-fill" id="timer-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="container">
+
+            <div id="start-screen" class="hero">
+                <p class="eyebrow">🚀 Level up your JS skills</p>
+                <div id="chl-msg">Coding Quiz Challenge</div>
+                <div id="question-rule">
+                    <p>Try to answer the following code-related questions within the time limit.
+                    Keep in mind that incorrect answers will penalize your score/time
+                    by ten seconds! After you pick your answer please click <strong>Next</strong> to move to next question!</p>
+                </div>
+                <div class="stat-pills">
+                    <span class="stat-pill">📝 20 Questions</span>
+                    <span class="stat-pill">⏱️ 75 Seconds</span>
+                    <span class="stat-pill">⚡ Instant Feedback</span>
+                </div>
+                <button id="start-btn" class="start-btn btn">
+                    <span>▶</span> Start Quiz
+                </button>
+            </div>
+
             <div id="question-container" class="hide">
+                <div class="progress-row">
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="progress-label" id="question-counter">Question 1 of 10</span>
+                </div>
+
                 <div id="question">Questions:</div>
-                <div id="answer-buttons" class="btn-grid">      
+                <div id="answer-buttons" class="btn-grid">
                     <button class="btn">Answer 1</button>
                     <button class="btn">Answer 2</button>
                     <button class="btn">Answer 3</button>
                     <button class="btn">Answer 4</button>
                 </div>
 
-                <div class="controls">   
-                    <button id="next-btn" class="next-btn btn hide">Next</button>
-                    <button id="highscores" class="high-score-btn btn">High Scores</button>
+                <div class="controls">
+                    <button id="next-btn" class="next-btn btn hide">Next →</button>
+                    <button id="highscores" class="high-score-btn btn btn-ghost">🏆 High Scores</button>
                 </div>
+                <p class="kbd-hint">Tip: press <kbd>1</kbd>–<kbd>4</kbd> to answer, <kbd>Enter</kbd> for next</p>
             </div>
 
             <!-- Score Modal -->
             <div id="score-modal" class="modal hide">
                 <div class="modal-content">
-                    <h2>Game Over!</h2>
-                    <p>Your final score: <span id="final-score"></span></p>
+                    <h2 id="modal-title">🎉 Game Over!</h2>
+                    <p id="modal-subtitle" class="modal-subtitle hide">New personal best!</p>
+                    <p class="final-score-label">Your final score</p>
+                    <p class="final-score-value"><span id="final-score"></span></p>
                     <div class="score-input">
-                        <label for="initials">Enter your initials (2-3 characters):</label>
-                        <input type="text" id="initials" maxlength="3" minlength="2">
-                        <button id="submit-score" class="btn">Submit Score</button>
+                        <label for="initials">Enter your initials (2-3 characters)</label>
+                        <input type="text" id="initials" maxlength="3" minlength="2" autocomplete="off" placeholder="AAA">
+                        <button id="submit-score" class="btn">Save Score</button>
                     </div>
                 </div>
             </div>
 
             <!-- High Scores Display -->
             <div id="scores-display" class="scores-container hide">
-                <h2>High Scores</h2>
+                <h2>🏆 High Scores</h2>
                 <div id="scores-list"></div>
-                <button id="close-scores" class="btn">Close Scores</button>
+                <button id="close-scores" class="btn btn-ghost">Close</button>
             </div>
-        </div>
+        </main>
     </div>
-    
+
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -7,6 +7,9 @@ https://kazichaska.github.io/code-quiz/
 An interactive and engaging JavaScript quiz application that tests your web development knowledge with a mix of technical questions and programming humor. The quiz features:
 
 - 🎲 Randomly shuffled questions each time you play
+- ⌨️ Keyboard shortcuts (1-4 / A-D to answer, Enter to advance)
+- 🔥 Live streak counter and floating score-change popups
+- 🔊 Sound effects with a mute toggle
 - ⏱️ Timed challenges with 75 seconds on the clock
 - 📊 Dynamic scoring system (+10 for correct, -5 for incorrect answers)
 - 🏆 High score tracking with local storage
@@ -52,7 +55,7 @@ https://kazichaska.github.io/code-quiz/
 ### Features in Detail
 
 1. **Question Pool**
-   - 10 diverse questions covering JavaScript concepts
+   - 20 diverse questions covering JavaScript concepts
    - Each question features emoji icons for visual engagement
    - Mix of technical questions and programming jokes
 
